@@ -1,21 +1,3 @@
-"""
-import sys
-
-lines = []
-try:
-    file = open(sys.argv[1], 'r')
-    lines = file.readlines()
-    file.close()
-    print(f"Contents of text file:\n {lines}")
-except:
-    print("Error opening file.")
-
-
-
-input("Waiting to exit...")
-
-"""
-
 import copy
 import sys
 
@@ -78,7 +60,6 @@ def retrieveBasicInfo(path):
 class Section:
    
     """
-   
     """
     def __init__(self, textList=None, parent=None):
        
@@ -94,8 +75,8 @@ class Section:
     recursively doing the same for subsections.s
     """
     def makeSelf(self, index=0):
-        while index < len(self.textList) and "#SECEND" not in self.textList[index]: #self.textList[index] != "#ENDSEC":
-            if "#SECSTART" in self.textList[index]: #self.textList[index] == "#STARTSEC":
+        while index < len(self.textList) and "#SECEND" not in self.textList[index]:
+            if "#SECSTART" in self.textList[index]: 
                 newSection = Section(self.textList, self)
                 index = newSection.makeSelf(index+1)
                 self.elements.append(newSection)
@@ -168,6 +149,8 @@ def replaceFirstOccurrance(string, old, new, verbose=False):
     else:
         return string
 
+"""
+"""
 def doDefault(path):
    
     formatFilePath = path
@@ -188,10 +171,13 @@ def doDefault(path):
     with open(outputFilePath, 'w') as file:
         for i in sec.flattenElements():
             file.write(i + "\n")
-           
+
+"""
+"""        
 def doWithPrompt():
     formatFilePath = input("Format file path: ")
     dataFilePath = input("Data file path: ")
+    outputFilePath = input("Output file path: ")
    
     inputText = retrieveBasicInfo(formatFilePath)
     sec = Section(inputText, None)
@@ -199,95 +185,22 @@ def doWithPrompt():
     sec.mapInfoToSection(info)
     sec.printAll()
    
-    with open("out.html", 'w') as file:
+    with open(outputFilePath, 'w') as file:
         for i in sec.flattenElements():
             file.write(i + "\n")
 
-
+"""
+Entry point. If an argument is given, use it as the
+input file path and assume formatting. Otherwise, prompt
+user for files.
+"""
 if __name__ == "__main__":
-   
+
     if len(sys.argv) > 1:
         file_path = sys.argv[1]
         doDefault(file_path)
     else:
         doWithPrompt()
-   
-    # lines = []
-    # try:
-    #     file = open(sys.argv[1], 'r')
-    #     lines = file.readlines()
-    #     file.close()
-    #     print(f"Contents of text file:\n {lines}")
-    # except:
-    #     print("Error opening file.")
-
-
 
 input("Waiting to exit...")
 
-#-------------------------------
-
-# import sys
-
-# def display_file_contents(file_path):
-#     try:
-#         with open(file_path, 'r') as file:
-#             content = file.read()
-#             print(content)
-#     except FileNotFoundError:
-#         print(f"Error: File '{file_path}' not found.")
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-
-
-   
-#-------------------------------
-
-# fileIn = open('resumeData/projects.fmt.html', 'r', encoding='utf-8')
-# lines = fileIn.readlines()
-# lines = [x for x in lines if x not in ['\n']]
-# lines = [x.strip() for x in lines]
-
-# lineIndex = 0
-# while lineIndex < len(lines):
-   
-#     line = lines[lineIndex]
-#     if "#REPLACE" in line:
-       
-#         file = line.split()[line.split().index("#REPLACE") + 1]
-#         replaceFile = open(file, 'r', encoding='utf-8')
-#         replaceLines = replaceFile.readlines()
-#         replaceLines = [x for x in replaceLines if x not in ['\n']]
-#         replaceLines = [x.strip() for x in replaceLines]
-#         lines = lines[:lineIndex] + replaceLines + lines[lineIndex+1:]
-       
-#     elif "#SECSTART" in line:
-       
-#         startIndex = lineIndex
-#         section = []
-#         info = retrieveInfo(line.split()[line.split().index("#SECSTART") + 1])
-#         lineIndex += 1
-#         line = lines[lineIndex]
-       
-#         while "#SECEND" not in line:
-#             section.append(line)
-#             lineIndex += 1
-#             line = lines[lineIndex]
-           
-#         endIndex = lineIndex
-       
-#         newSection = section * len(info)
-       
-#         newIndex = 0
-#         while newIndex < len(newSection):
-           
-#             if
-               
-       
-#     lineIndex += 1
-
-           
-           
-       
-
-   
